@@ -1,13 +1,18 @@
+//aprender como usar librerías de C
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
 #include <time.h>
 
+//no usar variables globales
 char *nombre_archivo;
 size_t memoria_asignada = 2;
 int i = 0;
+//utilizar listas enlazadas para guardar las palabras extraidas del archivo
 
-void eliminar_string(char **strings, int *cantidad_de_strings, int indice) {
+//usar cadenas seguras, fijarse en los TPs y los materiales de la materia
+void eliminar_string(char **strings, int *cantidad_de_strings, int indice) 
+{
     free(strings[indice]);
 
     for (int i = indice; i < *cantidad_de_strings - 1; i++) 
@@ -20,6 +25,7 @@ void eliminar_string(char **strings, int *cantidad_de_strings, int indice) {
 
 int main()
 {
+    //usar mas funciones, reducir la cantidad de codigo en main
     nombre_archivo = malloc(memoria_asignada * sizeof(char));
     printf("Escriba el nombre exacto del archivo que quiere escanear\n");
     while ((nombre_archivo[i] = getchar()) != '\n' && *nombre_archivo != EOF) 
@@ -34,6 +40,7 @@ int main()
     nombre_archivo[i] = '\0';
     printf("Buscando: %s\n", nombre_archivo);
 
+    //usar mejores nombres de variables
     char word[25] = {NULL};
     char **lista_palabras = NULL;
     int p_1;
@@ -62,6 +69,9 @@ int main()
             cantidad_de_palabras += 1;
             lista_palabras = realloc(lista_palabras , cantidad_de_palabras * sizeof(char*));
             lista_palabras[cantidad_de_palabras - 1] = malloc(strlen(word) + 1);
+            /*Copiamos la palabra a el arreglo mediante strcpy para asegurar una copia
+            y evitar problemas ya que el valor del puntero de la palabra va a ser
+            modificado en iteraciones siguientes, tambien asegura de que la string de word este terminada con \0*/
             strcpy(lista_palabras[cantidad_de_palabras - 1], word);
             memset(word, '\0', strlen(word));
             z = 0;
